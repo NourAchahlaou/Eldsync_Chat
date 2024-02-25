@@ -1,13 +1,20 @@
 package tn.esprit.EldSync.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.converter.DefaultContentTypeResolver;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import java.util.List;
 
-    @Configuration
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
+
+
+@Configuration
     @EnableWebSocketMessageBroker
     public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
         @Override
@@ -17,10 +24,18 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
         @Override
         public void configureMessageBroker(MessageBrokerRegistry registry) {
+
             registry.setApplicationDestinationPrefixes("/app");
-            registry.enableSimpleBroker("/topic"); // Enables a simple in-memory broker
+            registry.enableSimpleBroker("/user"); // Enables a simple in-memory broker
+            registry.setUserDestinationPrefix("/user");
         }
 
-
-
+    @Override
+    public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+        DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
+        resolver.setDefaultMimeType(APPLICATION_JSON);
+        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        converter.setContentTypeResolver(resolver);
+        messageConverters.add(converter);
+            return false;}
 }

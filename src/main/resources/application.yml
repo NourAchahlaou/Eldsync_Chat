@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      url: mongodb://root:password@localhost:27017/eldsyncChat
+
+server:
+  port: 8088
