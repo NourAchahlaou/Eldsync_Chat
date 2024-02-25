@@ -53,4 +53,8 @@ public class ChatRoomService {
 
         return chatId;
     }
+    public void deleteChatRoom(String senderId, String recipientId) {
+        chatRoomRepository.deleteBySenderIdAndRecipientId(senderId, recipientId);
+        chatRoomRepository.deleteBySenderIdAndRecipientId(recipientId, senderId);
+    }
 }
