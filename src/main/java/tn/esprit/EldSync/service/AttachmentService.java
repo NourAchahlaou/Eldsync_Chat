@@ -1,6 +1,6 @@
 package tn.esprit.EldSync.service;
 
-import jakarta.persistence.Id;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.EldSync.model.Attachment;

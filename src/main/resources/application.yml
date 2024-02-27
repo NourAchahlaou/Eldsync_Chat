@@ -1,15 +1,16 @@
 spring:
   data:
     mongodb:
-      url: mongodb://root:password@localhost:27017/eldsyncChat
+      username: root
+      password: password
+      host: localhost
+      port: 27017
+      database: chat_app
+      authentication-database: admin
 
 server:
-  port: 8088
+  port: 8089
 
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    enabled: true
+
+
 

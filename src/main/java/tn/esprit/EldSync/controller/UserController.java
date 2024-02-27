@@ -1,12 +1,13 @@
 package tn.esprit.EldSync.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import tn.esprit.EldSync.model.UserTest;
+import tn.esprit.EldSync.model.User;
 import tn.esprit.EldSync.service.UserService;
 
 import java.util.List;
@@ -14,26 +15,29 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
 
-    @MessageMapping("/addUser")
-    @SendTo("/user/topic")
-    public UserTest addUser(@Payload UserTest user) {
+    @MessageMapping("/user.addUser")
+    @SendTo("/user/public")
+    public User addUser(
+            @Payload User user
+    ) {
         userService.saveUser(user);
         return user;
     }
 
-    @MessageMapping("/disconnectUser")
-    @SendTo("/user/topic")//notify to the same queue that someone has disconnected
-    public UserTest disconnectUser(@Payload UserTest user) {
-        userService.disconnectUser(user);
+    @MessageMapping("/user.disconnectUser")
+    @SendTo("/user/public")
+    public User disconnectUser(
+            @Payload User user
+    ) {
+        userService.disconnect(user);
         return user;
     }
 
-    @GetMapping("/connectedUsers")
-    public List<UserTest> findConnectedUser() {
-        return userService.findConnectedUser();
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> findConnectedUsers() {
+        return ResponseEntity.ok(userService.findConnectedUsers());
     }
-
-
 }

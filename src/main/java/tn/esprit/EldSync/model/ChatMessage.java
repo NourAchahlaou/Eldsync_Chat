@@ -21,6 +21,6 @@ public class ChatMessage {
     private String recipientId;
     private String content;
     private Date timestamp;
-    private boolean file; // true if the message is a file
-    private List<Attachment> attachments;
+   // private boolean file; // true if the message is a file
+   // private List<Attachment> attachments;
 }

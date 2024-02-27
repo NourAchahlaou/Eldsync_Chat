@@ -22,12 +22,12 @@ public class ChatRoomService {
                 .findBySenderIdAndRecipientId(senderId, recipientId)
                 .map(ChatRoom::getChatId)
                 .or(() -> {
-                    if (createNewRoomIfNotExists) {
+                    if(createNewRoomIfNotExists) {
                         var chatId = createChatId(senderId, recipientId);
                         return Optional.of(chatId);
                     }
 
-                    return Optional.empty();
+                    return  Optional.empty();
                 });
     }
 
@@ -52,9 +52,5 @@ public class ChatRoomService {
         chatRoomRepository.save(recipientSender);
 
         return chatId;
-    }
-    public void deleteChatRoom(String senderId, String recipientId) {
-        chatRoomRepository.deleteBySenderIdAndRecipientId(senderId, recipientId);
-        chatRoomRepository.deleteBySenderIdAndRecipientId(recipientId, senderId);
     }
 }

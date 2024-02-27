@@ -8,19 +8,14 @@ import tn.esprit.EldSync.repository.ChatMessageRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
 public class ChatMessageService {
     private final ChatMessageRepository repository;
     private final ChatRoomService chatRoomService;
-    private final AttachmentService attachmentService;
 
     public ChatMessage save(ChatMessage chatMessage) {
-        if (chatMessage.isFile() && chatMessage.getAttachments() != null) {
-            // Save attachments first
-            chatMessage.getAttachments().forEach(attachmentService::saveAttachment);
-        }
-
         var chatId = chatRoomService
                 .getChatRoomId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true)
                 .orElseThrow(); // You can create your own dedicated exception
@@ -34,3 +29,4 @@ public class ChatMessageService {
         return chatId.map(repository::findByChatId).orElse(new ArrayList<>());
     }
 }
+
